@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSN Helpdesk Ticketing System</title>
+
+<style>
+
+body{
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+background: linear-gradient(135deg,#0a2a66,#3b82f6);
+margin:0;
+color:#333;
+}
+
+/* HEADER */
+
+
+.header{
+width:100%;
+box-sizing:border-box;   /* THIS fixes the cutoff */
+background:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 40px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+
+
+.header img{
+height:55px;
+}
+
+/* HOME BUTTON */
+
+.home-btn{
+background:#0a2a66;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+cursor:pointer;
+font-size:14px;
+white-space:nowrap; /* prevents text breaking */
+}
+
+.home-btn:hover{
+background:#08214f;
+}
+
+/* PAGE TITLE */
+
+.page-title{
+text-align:center;
+color:white;
+font-size:2rem;
+font-weight:600;
+margin-top:30px;
+margin-bottom:20px;
+}
+
+/* LAYOUT */
+
+main{
+max-width:900px;
+margin:auto;
+padding:0 1rem;
+}
+
+/* CARD */
+
+.card{
+background:white;
+padding:2rem;
+border-radius:10px;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* SECTION TITLE */
+
+.card h2{
+margin-top:0;
+color:#0a2a66;
+padding-bottom:10px;
+border-bottom:2px solid #eee;
+}
+
+/* FORM */
+
+.form-group{
+margin-bottom:1.5rem;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-weight:bold;
+}
+
+input[type="text"],select,textarea{
+width:100%;
+padding:10px;
+border:1px solid #ddd;
+border-radius:4px;
+box-sizing:border-box;
+font-family:inherit;
+}
+
+/* BUTTON */
+
+button.submit-btn{
+background:#0a2a66;
+color:white;
+border:none;
+padding:12px;
+font-size:1rem;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+button.submit-btn:hover{
+background:#08214f;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+<img src="assests/ssn.png" alt="SSN Logo">
+
+<button class="home-btn" onclick="goHome()">Back to Home</button>
+
+</div>
+
+<div class="page-title">
+Submit a Support Request
+</div>
+
+<main>
+
+<section class="card">
+
+<h2>Log a Request / Complaint</h2>
+
+<form>
+
+<div class="form-group">
+<label>Requester Name</label>
+<input type="text" placeholder="Enter your full name" required>
+</div>
+
+<div class="form-group">
+<label>Service Type</label>
+
+<select required>
+
+<option value="">-- Select a Service --</option>
+
+<option>IT Support / System Issues</option>
+<option>Wi-Fi / Internet Connectivity</option>
+<option>Projector / Classroom Equipment</option>
+<option>Electrical Issues</option>
+<option>Air Conditioning / Ventilation</option>
+<option>Plumbing / Water Supply</option>
+<option>Carpentry / Furniture Repair</option>
+<option>Cleaning / Housekeeping</option>
+<option>Laboratory Equipment Issues</option>
+<option>Printer / Scanner Issues</option>
+<option>Access Card / ID Issues</option>
+<option>Network / Server Access</option>
+<option>Hostel Maintenance</option>
+<option>Transport / Bus Service</option>
+<option>Library Systems</option>
+<option>Software Installation</option>
+<option>Campus Facilities</option>
+<option>Others</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+<label>Issue Description</label>
+
+<textarea rows="4"
+placeholder="Describe your issue in detail..."
+required></textarea>
+
+</div>
+
+<button class="submit-btn">
+Submit Request
+</button>
+
+</form>
+
+</section>
+
+</main>
+
+<script>
+
+function goHome(){
+window.location.href="Homepage.html";
+}
+
+</script>
+
+</body>
+</html>
