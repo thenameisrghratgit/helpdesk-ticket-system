@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSN HTMS – Login / Register</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a2a66;--blue:#1f4db8;--accent:#00b4ff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+}
+
+/* HEADER */
+.top-bar{
+  width:100%;
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 40px;
+  box-shadow:0 3px 12px rgba(0,0,0,.12);
+}
+.brand{font-family:'Space Grotesk',sans-serif;color:var(--navy);font-size:20px;}
+.brand span{color:var(--accent);}
+.home-btn{
+  padding:9px 20px;
+  background:var(--navy);
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  font-family:'DM Sans',sans-serif;
+  transition:.2s;
+}
+.home-btn:hover{background:var(--blue);}
+
+/* CARD */
+.container{
+  margin-top:60px;
+  width:400px;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.2);
+  padding:40px;
+  border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  color:white;
+}
+.title{
+  text-align:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:26px;
+  margin-bottom:28px;
+}
+
+/* TABS */
+.tabs{display:flex;margin-bottom:28px;border-bottom:1px solid rgba(255,255,255,.2);}
+.tabs button{
+  flex:1;
+  padding:10px;
+  background:none;
+  border:none;
+  color:rgba(255,255,255,.6);
+  font-size:15px;
+  font-family:'DM Sans',sans-serif;
+  font-weight:600;
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  margin-bottom:-1px;
+  transition:.25s;
+}
+.tabs button.active{color:white;border-bottom-color:var(--accent);}
+
+/* INPUT */
+.input-group{margin-bottom:16px;}
+.input-group label{display:block;font-size:13px;opacity:.75;margin-bottom:6px;}
+input{
+  width:100%;
+  padding:12px 14px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:8px;
+  color:white;
+  font-size:15px;
+  font-family:'DM Sans',sans-serif;
+  outline:none;
+  transition:.2s;
+}
+input::placeholder{color:rgba(255,255,255,.5);}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,180,255,.2);}
+
+.pass-wrap{position:relative;}
+.eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:17px;user-select:none;}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:13px;
+  background:linear-gradient(90deg,var(--navy),var(--accent));
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  font-weight:700;
+  font-family:'DM Sans',sans-serif;
+  cursor:pointer;
+  margin-top:8px;
+  transition:.25s;
+}
+.btn:hover{opacity:.9;transform:translateY(-1px);}
+
+.form{display:none;}
+.form.active{display:block;}
+
+/* MESSAGE */
+.msg{
+  margin-top:14px;
+  padding:10px 14px;
+  border-radius:8px;
+  font-size:14px;
+  text-align:center;
+  display:none;
+}
+.msg.ok{background:rgba(46,204,113,.25);border:1px solid #2ecc71;color:#afffcf;}
+.msg.err{background:rgba(231,76,60,.25);border:1px solid #e74c3c;color:#ffbfbf;}
+
+.footer-note{text-align:center;margin-top:22px;font-size:13px;opacity:.55;}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="brand">SSN <span>Helpdesk</span></div>
+  <button class="home-btn" onclick="location.href='/'">← Back to Home</button>
+</div>
+
+<div class="container">
+  <div class="title">SSN HTMS Portal</div>
+
+  <div class="tabs">
+    <button id="tabLogin" class="active" onclick="show('login')">Login</button>
+    <button id="tabRegister" onclick="show('register')">Register</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login" class="form active">
+    <div class="input-group">
+      <label>Username</label>
+      <input id="l_user" type="text" placeholder="Enter username">
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <div class="pass-wrap">
+        <input id="l_pass" type="password" placeholder="Enter password">
+        <span class="eye" onclick="toggle('l_pass',this)">👁</span>
+      </div>
+    </div>
+    <button class="btn" onclick="doLogin()">Login →</button>
+    <div id="loginMsg" class="msg"></div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="register" class="form">
+    <div class="input-group">
+      <label>Full Name</label>
+      <input id="r_name" type="text" placeholder="Your full name">
+    </div>
+    <div class="input-group">
+      <label>Username</label>
+      <input id="r_user" type="text" placeholder="Choose a username">
+    </div>
+    <div class="input-group">
+      <label>Email</label>
+      <input id="r_email" type="email" placeholder="your@email.com">
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <div class="pass-wrap">
+        <input id="r_pass" type="password" placeholder="Create password">
+        <span class="eye" onclick="toggle('r_pass',this)">👁</span>
+      </div>
+    </div>
+    <button class="btn" onclick="doRegister()">Create Account →</button>
+    <div id="registerMsg" class="msg"></div>
+  </div>
+
+  <div class="footer-note">Helpdesk Ticket Management System</div>
+</div>
+
+<script>
+function show(tab){
+  ['login','register'].forEach(t=>{
+    document.getElementById(t).classList.toggle('active', t===tab);
+    document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1))
+            .classList.toggle('active', t===tab);
+  });
+}
+
+function toggle(id, el){
+  const inp = document.getElementById(id);
+  inp.type  = inp.type==='password' ? 'text' : 'password';
+  el.textContent = inp.type==='password' ? '👁' : '🙈';
+}
+
+function flash(id, ok, msg){
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className   = 'msg ' + (ok ? 'ok' : 'err');
+  el.style.display = 'block';
+}
+
+async function doLogin(){
+  const username = document.getElementById('l_user').value.trim();
+  const password = document.getElementById('l_pass').value;
+  if(!username||!password){ flash('loginMsg',false,'Please fill all fields.'); return; }
+
+  const res  = await fetch('/api/login',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({username,password})
+  });
+  const data = await res.json();
+  if(data.ok){
+    flash('loginMsg',true,'Login successful! Redirecting…');
+    setTimeout(()=>{ location.href = data.role==='admin' ? '/admin' : '/status'; }, 1000);
+  } else {
+    flash('loginMsg',false, data.message);
+  }
+}
+
+async function doRegister(){
+  const fullname  = document.getElementById('r_name').value.trim();
+  const username  = document.getElementById('r_user').value.trim();
+  const email     = document.getElementById('r_email').value.trim();
+  const password  = document.getElementById('r_pass').value;
+  if(!fullname||!username||!email||!password){ flash('registerMsg',false,'Please fill all fields.'); return; }
+
+  const res  = await fetch('/api/register',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({fullname,username,email,password})
+  });
+  const data = await res.json();
+  flash('registerMsg', data.ok, data.message);
+  if(data.ok) setTimeout(()=>show('login'), 1500);
+}
+</script>
+</body>
+</html>

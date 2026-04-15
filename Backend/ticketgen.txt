@@ -1,0 +1,4 @@
+20260001|gokul|gokul|Wi-Fi / Internet Connectivity|wifi issue from night|Resolved
+20260002|gokul|hari|IT Support / System Issues|system not turning on|Open
+20260003|gokul|gokula|Air Conditioning / Ventilation|AC water leakage|Open
+2026CARP01|gokul|rajan|Carpentry / Furniture Repair|bed is broken|Open

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Ticket – SSN Helpdesk</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a2a66;--blue:#1f4db8;--accent:#00b4ff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  min-height:100vh;
+  color:#333;
+}
+
+.top-bar{
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 40px;
+  box-shadow:0 3px 12px rgba(0,0,0,.12);
+}
+.brand{font-family:'Space Grotesk',sans-serif;color:var(--navy);font-size:20px;}
+.brand span{color:var(--accent);}
+.home-btn{
+  padding:9px 20px;
+  background:var(--navy);
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  font-family:'DM Sans',sans-serif;
+}
+.home-btn:hover{background:var(--blue);}
+
+.page-title{
+  color:white;
+  text-align:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:32px;
+  padding:40px 20px 24px;
+}
+
+main{max-width:700px;margin:0 auto;padding:0 20px 60px;}
+
+.card{
+  background:white;
+  padding:40px;
+  border-radius:14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.18);
+}
+.card h2{
+  color:var(--navy);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:20px;
+  margin-bottom:24px;
+  padding-bottom:14px;
+  border-bottom:2px solid #eef0f8;
+}
+
+.form-group{margin-bottom:20px;}
+label{
+  display:block;
+  font-weight:600;
+  font-size:14px;
+  color:#444;
+  margin-bottom:7px;
+}
+input,select,textarea{
+  width:100%;
+  padding:12px 14px;
+  border:1.5px solid #dde2ef;
+  border-radius:8px;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  outline:none;
+  transition:.2s;
+  color:#222;
+  background:#fafbff;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(0,180,255,.12);
+}
+textarea{resize:vertical;}
+
+.submit-btn{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(90deg,var(--navy),var(--blue));
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  font-weight:700;
+  font-family:'DM Sans',sans-serif;
+  cursor:pointer;
+  margin-top:6px;
+  transition:.25s;
+}
+.submit-btn:hover{opacity:.9;transform:translateY(-1px);}
+
+.msg{
+  margin-top:16px;
+  padding:12px 16px;
+  border-radius:8px;
+  font-size:14px;
+  text-align:center;
+  display:none;
+}
+.msg.ok{background:#edfff5;border:1px solid #2ecc71;color:#1a7a45;}
+.msg.err{background:#fff0f0;border:1px solid #e74c3c;color:#c0392b;}
+
+.login-notice{
+  background:#fff8e1;
+  border:1px solid #ffc107;
+  color:#7a5c00;
+  padding:12px 16px;
+  border-radius:8px;
+  font-size:14px;
+  margin-bottom:20px;
+  display:none;
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="brand">SSN <span>Helpdesk</span></div>
+  <button class="home-btn" onclick="location.href='/'">← Back to Home</button>
+</div>
+
+<div class="page-title">Submit a Support Request</div>
+
+<main>
+  <div class="card">
+    <h2>📝 Log a Request / Complaint</h2>
+
+    <div class="login-notice" id="loginNotice">
+      ⚠️ You are not logged in. <a href="/login">Login here</a> to submit a ticket.
+    </div>
+
+    <div class="form-group">
+      <label>Requester Name</label>
+      <input id="reqName" type="text" placeholder="Enter your full name" required>
+    </div>
+
+    <div class="form-group">
+      <label>Service Type</label>
+      <select id="service" required>
+        <option value="">-- Select a Service --</option>
+        <option>IT Support / System Issues</option>
+        <option>Wi-Fi / Internet Connectivity</option>
+        <option>Projector / Classroom Equipment</option>
+        <option>Electrical Issues</option>
+        <option>Air Conditioning / Ventilation</option>
+        <option>Plumbing / Water Supply</option>
+        <option>Carpentry / Furniture Repair</option>
+        <option>Cleaning / Housekeeping</option>
+        <option>Laboratory Equipment Issues</option>
+        <option>Printer / Scanner Issues</option>
+        <option>Access Card / ID Issues</option>
+        <option>Network / Server Access</option>
+        <option>Hostel Maintenance</option>
+        <option>Transport / Bus Service</option>
+        <option>Library Systems</option>
+        <option>Software Installation</option>
+        <option>Campus Facilities</option>
+        <option>Others</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Issue Description</label>
+      <textarea id="desc" rows="5" placeholder="Describe your issue in detail..." required></textarea>
+    </div>
+
+    <button class="submit-btn" onclick="submitTicket()">Submit Request →</button>
+    <div id="msg" class="msg"></div>
+  </div>
+</main>
+
+<script>
+async function checkLogin(){
+  const res  = await fetch('/api/session');
+  const data = await res.json();
+  if(!data.loggedIn){
+    document.getElementById('loginNotice').style.display = 'block';
+  }
+}
+
+function flash(ok, text){
+  const el = document.getElementById('msg');
+  el.textContent   = text;
+  el.className     = 'msg ' + (ok ? 'ok' : 'err');
+  el.style.display = 'block';
+}
+
+async function submitTicket(){
+  const reqName = document.getElementById('reqName').value.trim();
+  const service = document.getElementById('service').value;
+  const desc    = document.getElementById('desc').value.trim();
+
+  if(!reqName || !service || !desc){
+    flash(false,'Please fill in all fields.'); return;
+  }
+
+  const res  = await fetch('/api/ticket/submit',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({requesterName:reqName, service, description:desc})
+  });
+  const data = await res.json();
+
+  if(data.ok){
+    flash(true, `✅ ${data.message}`);
+    document.getElementById('reqName').value = '';
+    document.getElementById('service').value = '';
+    document.getElementById('desc').value    = '';
+    setTimeout(()=> location.href='/status', 1800);
+  } else {
+    flash(false, data.message === 'Not logged in.'
+      ? '⚠️ Please login first to submit a ticket.'
+      : data.message);
+  }
+}
+
+checkLogin();
+</script>
+</body>
+</html>

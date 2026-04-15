@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Tickets – SSN Helpdesk</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2a66;
+      --blue: #1f4db8;
+      --accent: #00b4ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 40px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, .12);
+    }
+
+    .brand {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--navy);
+      font-size: 20px;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .home-btn {
+      padding: 9px 20px;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .home-btn:hover {
+      background: var(--blue);
+    }
+
+    .page-title {
+      color: white;
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      padding: 40px 20px 24px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .card {
+      background: white;
+      padding: 36px;
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .18);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid #eef0f8;
+    }
+
+    .card-header h2 {
+      color: var(--navy);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+    }
+
+    .new-btn {
+      padding: 9px 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f0f4ff;
+      color: var(--navy);
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 2px solid #dde2ef;
+    }
+
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #eef0f8;
+      color: #444;
+      vertical-align: top;
+    }
+
+    tr:hover td {
+      background: #fafbff;
+    }
+
+    /* STATUS BADGES */
+    .badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .Open {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .In_Progress {
+      background: #cfe2ff;
+      color: #084298;
+    }
+
+    .Resolved {
+      background: #d1e7dd;
+      color: #0a3622;
+    }
+
+    .Closed {
+      background: #e2e3e5;
+      color: #41464b;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 50px;
+      color: #888;
+    }
+
+    .empty a {
+      color: var(--accent);
+    }
+
+    /* QUEUE POPUP */
+    .queue-popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .queue-box {
+      background: white;
+      border-radius: 16px;
+      padding: 36px 40px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+      animation: popIn .25s ease;
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(.85);
+        opacity: 0
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .queue-box h3 {
+      color: var(--navy);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .queue-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 54px;
+      color: var(--accent);
+      font-weight: 700;
+      margin: 16px 0;
+    }
+
+    .queue-status {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 22px;
+    }
+
+    .queue-close {
+      padding: 10px 28px;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .queue-close:hover {
+      background: var(--blue);
+    }
+
+    .ticket-id-link {
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar">
+    <div class="brand">SSN <span>Helpdesk</span></div>
+    <button class="home-btn" onclick="location.href='/'">← Back to Home</button>
+  </div>
+
+  <div class="page-title">My Tickets</div>
+
+  <main>
+    <div class="card">
+      <div class="card-header">
+        <h2>🎫 Your Support Requests</h2>
+        <a class="new-btn" href="/open">+ New Ticket</a>
+      </div>
+
+      <div id="content">
+        <p style="text-align:center;color:#888;padding:30px;">Loading tickets…</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function loadTickets() {
+      const sessionRes = await fetch('/api/session');
+      const session = await sessionRes.json();
+
+      if (!session.loggedIn) {
+        document.getElementById('content').innerHTML =
+          `<div class="empty">Please <a href="/login">login</a> to view your tickets.</div>`;
+        return;
+      }
+
+      const res = await fetch('/api/ticket/list');
+      const data = await res.json();
+
+      if (!data.ok || data.tickets.length === 0) {
+        document.getElementById('content').innerHTML =
+          `<div class="empty">No tickets yet. <a href="/open">Open one now!</a></div>`;
+        return;
+      }
+
+      const rows = data.tickets.map(t => {
+        const statusClass = t.status.replace(' ', '_');
+        return `<tr>
+      <td>
+        <span class="ticket-id-link" 
+        onclick="showQueue('${t.id}')" 
+        title="Click to see queue position">
+        ${t.id}
+        </span>
+      </td>
+      <td>${t.service}</td>
+      <td>${t.description}</td>
+      <td><span class="badge ${statusClass}">${t.status}</span></td>
+      <td>${t.date}</td>
+
+      <td>
+        <button onclick="deleteTicket('${t.id}')" 
+          style="background:#e74c3c;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer">
+           Delete
+        </button>
+      </td>
+    </tr>`;
+      }).join('');
+
+      document.getElementById('content').innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Ticket ID</th><th>Service</th><th>Description</th><th>Status</th><th>Date</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+    }
+
+    loadTickets();
+
+    async function showQueue(ticketId) {
+      const popup = document.getElementById('queuePopup');
+      document.getElementById('queueNum').textContent = '...';
+      document.getElementById('queueStatusText').textContent = 'Fetching your position…';
+      popup.style.display = 'flex';
+      try {
+        const res = await fetch('/api/ticket/status?id=' + encodeURIComponent(ticketId));
+        const data = await res.json();
+        if (data.ok) {
+          document.getElementById('queueNum').textContent = data.peopleAhead;
+          document.getElementById('queueStatusText').textContent =
+            data.peopleAhead === 0
+              ? `Status: ${data.status} — You're next! 🎉`
+              : `Status: ${data.status} — ${data.peopleAhead} ticket(s) ahead of you`;
+        } else {
+          document.getElementById('queueNum').textContent = '?';
+          document.getElementById('queueStatusText').textContent = 'Could not fetch queue info.';
+        }
+      } catch (e) {
+        document.getElementById('queueNum').textContent = '!';
+        document.getElementById('queueStatusText').textContent = 'Server error. Try again.';
+      }
+    }
+    async function deleteTicket(id) {
+      if (!confirm("Delete this ticket?")) return;
+
+      await fetch('/api/ticket/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ticketId: id })
+      });
+
+      alert("Deleted!");
+      location.reload();
+    }
+
+    function closeQueue(e) {
+      if (e.target === document.getElementById('queuePopup'))
+        document.getElementById('queuePopup').style.display = 'none';
+    }
+  </script>
+
+  <!-- QUEUE POPUP -->
+  <div class="queue-popup" id="queuePopup" onclick="closeQueue(event)">
+    <div class="queue-box">
+      <h3>👥 Queue Position</h3>
+      <div class="queue-num" id="queueNum">–</div>
+      <div class="queue-status" id="queueStatusText">Loading...</div>
+      <button class="queue-close" onclick="document.getElementById('queuePopup').style.display='none'">Close</button>
+    </div>
+  </div>
+</body>
+
+</html>

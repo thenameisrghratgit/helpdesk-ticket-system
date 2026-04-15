@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSN Helpdesk Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a2a66;
+  --blue:#1f4db8;
+  --accent:#00b4ff;
+  --green:#2ecc71;
+  --light:#f0f4ff;
+  --white:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--light);color:#222;}
+
+/* HEADER */
+header{
+  background:var(--navy);
+  color:white;
+  padding:16px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 20px rgba(0,0,0,0.3);
+}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:22px;letter-spacing:1px;}
+.logo span{color:var(--accent);}
+nav a{
+  color:rgba(255,255,255,0.85);
+  text-decoration:none;
+  margin-left:28px;
+  font-weight:500;
+  font-size:15px;
+  transition:color .2s;
+}
+nav a:hover{color:var(--accent);}
+#userInfo{color:var(--accent);font-size:14px;font-weight:600;display:none;}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);
+  color:white;
+  text-align:center;
+  padding:90px 20px 80px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 70% 50%, rgba(0,180,255,.15) 0%, transparent 60%);
+}
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:48px;
+  line-height:1.15;
+  margin-bottom:18px;
+  position:relative;
+}
+.hero p{
+  max-width:620px;
+  margin:0 auto 40px;
+  font-size:17px;
+  opacity:.85;
+  line-height:1.7;
+  position:relative;
+}
+.hero-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;position:relative;}
+.btn{
+  padding:14px 32px;
+  border-radius:8px;
+  font-weight:700;
+  font-size:15px;
+  text-decoration:none;
+  display:inline-block;
+  transition:transform .2s, box-shadow .2s;
+  cursor:pointer;
+  border:none;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.3);}
+.btn-primary{background:var(--accent);color:white;}
+.btn-secondary{background:var(--green);color:white;}
+
+/* CARDS */
+.cards{
+  display:flex;
+  justify-content:center;
+  gap:28px;
+  padding:70px 40px;
+  flex-wrap:wrap;
+}
+.card{
+  background:white;
+  width:270px;
+  padding:36px 28px;
+  border-radius:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  text-align:center;
+  transition:transform .25s, box-shadow .25s;
+  border-top:4px solid var(--accent);
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 35px rgba(0,0,0,.13);}
+.card-icon{font-size:38px;margin-bottom:16px;}
+.card h3{color:var(--navy);font-size:18px;margin-bottom:10px;}
+.card p{color:#555;font-size:14px;line-height:1.6;}
+
+/* FOOTER */
+footer{
+  background:var(--navy);
+  color:rgba(255,255,255,.7);
+  text-align:center;
+  padding:20px;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SSN <span>Helpdesk</span></div>
+  <nav>
+    <span id="userInfo"></span>
+    <a href="/open"   id="navTicket">Open Ticket</a>
+    <a href="/status" id="navStatus">My Tickets</a>
+    <a href="/login"  id="navLogin">Login</a>
+    <a href="#"       id="navLogout" style="display:none" onclick="logout()">Logout</a>
+    <a href="/admin"  id="navAdmin"  style="display:none">Admin Panel</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>SSN Ticket Management<br>System</h1>
+  <p>Report technical or infrastructure issues — WiFi, electrical, AC, transport, IT support and more. Our support team ensures quick resolution.</p>
+  <div class="hero-btns">
+    <a class="btn btn-primary"   href="/open">📝 Open a New Ticket</a>
+    <a class="btn btn-secondary" href="/status">🔍 Check Ticket Status</a>
+  </div>
+</section>
+
+<section class="cards">
+  <div class="card">
+    <div class="card-icon">🛠️</div>
+    <h3>Report an Issue</h3>
+    <p>Submit a helpdesk ticket for any campus related issue quickly and easily.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">📋</div>
+    <h3>Track Request</h3>
+    <p>Check updates and real-time status of your submitted support tickets.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">🏫</div>
+    <h3>Campus Support</h3>
+    <p>Our dedicated support team ensures fast resolution of every reported problem.</p>
+  </div>
+</section>
+
+<footer>© 2026 SSN College of Engineering – Helpdesk System</footer>
+
+<script>
+async function checkSession(){
+  const res  = await fetch('/api/session');
+  const data = await res.json();
+  if(data.loggedIn){
+    document.getElementById('userInfo').textContent = '👤 ' + data.username;
+    document.getElementById('userInfo').style.display = 'inline';
+    document.getElementById('navLogin').style.display  = 'none';
+    document.getElementById('navLogout').style.display = 'inline';
+    if(data.role === 'admin')
+      document.getElementById('navAdmin').style.display = 'inline';
+  }
+}
+async function logout(){
+  await fetch('/api/logout',{method:'POST'});
+  location.reload();
+}
+checkSession();
+</script>
+</body>
+</html>
