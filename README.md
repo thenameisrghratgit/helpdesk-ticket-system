@@ -1,15 +1,25 @@
-# Helpdesk Ticketing System
+# 🎫 Helpdesk Ticket System
 
-## Description
-A system to manage service requests in an organization.
+A full-stack helpdesk system using:
+- C (Backend logic)
+- Flask (API layer)
+- HTML/CSS/JS (Frontend)
 
-## Features
-- Ticket creation
-- Ticket assignment
-- Ticket tracking
-- Ticket closure
+## 🚀 Features
+- User login & registration
+- Raise support tickets
+- Unique ticket ID (2026WIFI01 format)
+- Queue system (people ahead)
+- Admin dashboard
+- Ticket status updates
 
-## Tools Used
+## 🛠️ Tech Stack
 - C Programming
-- GitHub
-- JIRA
+- Python Flask
+- HTML/CSS/JS
+
+## ▶️ How to Run
+
+```bash
+cd Backend
+python app.py
