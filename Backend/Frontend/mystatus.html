@@ -1,392 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Tickets – SSN Helpdesk</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --navy: #0a2a66;
-      --blue: #1f4db8;
-      --accent: #00b4ff;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Tickets – SSN Helpdesk</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a2a66;--blue:#1f4db8;--accent:#00b4ff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  min-height:100vh;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+.top-bar{
+  background:white;display:flex;justify-content:space-between;
+  align-items:center;padding:14px 40px;box-shadow:0 3px 12px rgba(0,0,0,.12);
+}
+.brand{font-family:'Space Grotesk',sans-serif;color:var(--navy);font-size:20px;}
+.brand span{color:var(--accent);}
+.home-btn{
+  padding:9px 20px;background:var(--navy);color:white;border:none;
+  border-radius:6px;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;
+}
+.home-btn:hover{background:var(--blue);}
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: linear-gradient(135deg, var(--navy), var(--blue));
-      min-height: 100vh;
-    }
+.page-title{
+  color:white;text-align:center;font-family:'Space Grotesk',sans-serif;
+  font-size:32px;padding:40px 20px 24px;
+}
 
-    .top-bar {
-      background: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 40px;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, .12);
-    }
+main{max-width:900px;margin:0 auto;padding:0 20px 60px;}
 
-    .brand {
-      font-family: 'Space Grotesk', sans-serif;
-      color: var(--navy);
-      font-size: 20px;
-    }
+.card{
+  background:white;padding:36px;border-radius:14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.18);
+}
+.card-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:24px;padding-bottom:14px;border-bottom:2px solid #eef0f8;
+}
+.card-header h2{color:var(--navy);font-family:'Space Grotesk',sans-serif;font-size:20px;}
+.new-btn{
+  padding:9px 20px;background:var(--accent);color:white;border:none;
+  border-radius:6px;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;
+  cursor:pointer;text-decoration:none;
+}
 
-    .brand span {
-      color: var(--accent);
-    }
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:14px;}
+th{
+  background:#f0f4ff;color:var(--navy);padding:12px 14px;
+  text-align:left;font-weight:700;border-bottom:2px solid #dde2ef;
+}
+td{padding:12px 14px;border-bottom:1px solid #eef0f8;color:#444;vertical-align:top;}
+tr:hover td{background:#fafbff;}
 
-    .home-btn {
-      padding: 9px 20px;
-      background: var(--navy);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      font-family: 'DM Sans', sans-serif;
-    }
+.badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;}
+.Open        {background:#fff3cd;color:#856404;}
+.In_Progress {background:#cfe2ff;color:#084298;}
+.Resolved    {background:#d1e7dd;color:#0a3622;}
+.Closed      {background:#e2e3e5;color:#41464b;}
 
-    .home-btn:hover {
-      background: var(--blue);
-    }
+.ticket-id-link{
+  color:var(--accent);cursor:pointer;text-decoration:underline;font-weight:700;
+}
 
-    .page-title {
-      color: white;
-      text-align: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 32px;
-      padding: 40px 20px 24px;
-    }
+/* service label in table */
+.svc-label{
+  display:inline-block;background:#f0f4ff;color:var(--navy);
+  font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;
+  margin-bottom:3px;
+}
 
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 20px 60px;
-    }
+.empty{text-align:center;padding:50px;color:#888;}
+.empty a{color:var(--accent);}
 
-    .card {
-      background: white;
-      padding: 36px;
-      border-radius: 14px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, .18);
-    }
+/* QUEUE POPUP */
+.queue-popup{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  display:none;align-items:center;justify-content:center;z-index:200;
+}
+.queue-box{
+  background:white;border-radius:16px;padding:36px 40px;
+  max-width:420px;width:90%;text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);animation:popIn .25s ease;
+}
+@keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
 
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 14px;
-      border-bottom: 2px solid #eef0f8;
-    }
+.queue-box h3{color:var(--navy);font-family:'Space Grotesk',sans-serif;font-size:22px;margin-bottom:6px;}
+.queue-service-name{font-size:13px;color:#888;margin-bottom:4px;}
 
-    .card-header h2 {
-      color: var(--navy);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 20px;
-    }
+.queue-num{
+  font-family:'Space Grotesk',sans-serif;font-size:58px;
+  color:var(--accent);font-weight:700;margin:14px 0 6px;
+  line-height:1;
+}
+.queue-num-label{font-size:13px;color:#aaa;margin-bottom:4px;}
 
-    .new-btn {
-      padding: 9px 20px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 700;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
-      text-decoration: none;
-    }
+/* progress bar inside popup */
+.q-bar-wrap{margin:14px 0;}
+.q-bar-track{height:8px;background:#eef0f8;border-radius:4px;overflow:hidden;}
+.q-bar-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .4s;}
+.q-bar-note{font-size:13px;color:#555;margin-top:8px;}
 
-    /* TABLE */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
+.queue-status{font-size:14px;color:#555;margin-bottom:22px;}
+.queue-close{
+  padding:10px 28px;background:var(--navy);color:white;border:none;
+  border-radius:8px;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;
+  font-weight:700;transition:.2s;
+}
+.queue-close:hover{background:var(--blue);}
 
-    th {
-      background: #f0f4ff;
-      color: var(--navy);
-      padding: 12px 14px;
-      text-align: left;
-      font-weight: 700;
-      border-bottom: 2px solid #dde2ef;
-    }
-
-    td {
-      padding: 12px 14px;
-      border-bottom: 1px solid #eef0f8;
-      color: #444;
-      vertical-align: top;
-    }
-
-    tr:hover td {
-      background: #fafbff;
-    }
-
-    /* STATUS BADGES */
-    .badge {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      display: inline-block;
-    }
-
-    .Open {
-      background: #fff3cd;
-      color: #856404;
-    }
-
-    .In_Progress {
-      background: #cfe2ff;
-      color: #084298;
-    }
-
-    .Resolved {
-      background: #d1e7dd;
-      color: #0a3622;
-    }
-
-    .Closed {
-      background: #e2e3e5;
-      color: #41464b;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 50px;
-      color: #888;
-    }
-
-    .empty a {
-      color: var(--accent);
-    }
-
-    /* QUEUE POPUP */
-    .queue-popup {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .55);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-    }
-
-    .queue-box {
-      background: white;
-      border-radius: 16px;
-      padding: 36px 40px;
-      max-width: 380px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
-      animation: popIn .25s ease;
-    }
-
-    @keyframes popIn {
-      from {
-        transform: scale(.85);
-        opacity: 0
-      }
-
-      to {
-        transform: scale(1);
-        opacity: 1
-      }
-    }
-
-    .queue-box h3 {
-      color: var(--navy);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-
-    .queue-num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 54px;
-      color: var(--accent);
-      font-weight: 700;
-      margin: 16px 0;
-    }
-
-    .queue-status {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 22px;
-    }
-
-    .queue-close {
-      padding: 10px 28px;
-      background: var(--navy);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      transition: .2s;
-    }
-
-    .queue-close:hover {
-      background: var(--blue);
-    }
-
-    .ticket-id-link {
-      color: var(--accent);
-      cursor: pointer;
-      text-decoration: underline;
-      font-weight: 700;
-    }
-  </style>
+/* delete btn */
+.del-btn{
+  background:#e74c3c;color:white;border:none;padding:5px 10px;
+  border-radius:5px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;
+}
+.del-btn:hover{opacity:.85;}
+</style>
 </head>
-
 <body>
 
-  <div class="top-bar">
-    <div class="brand">SSN <span>Helpdesk</span></div>
-    <button class="home-btn" onclick="location.href='/'">← Back to Home</button>
-  </div>
+<div class="top-bar">
+  <div class="brand">SSN <span>Helpdesk</span></div>
+  <button class="home-btn" onclick="location.href='/'">← Back to Home</button>
+</div>
 
-  <div class="page-title">My Tickets</div>
+<div class="page-title">My Tickets</div>
 
-  <main>
-    <div class="card">
-      <div class="card-header">
-        <h2>🎫 Your Support Requests</h2>
-        <a class="new-btn" href="/open">+ New Ticket</a>
-      </div>
-
-      <div id="content">
-        <p style="text-align:center;color:#888;padding:30px;">Loading tickets…</p>
-      </div>
+<main>
+  <div class="card">
+    <div class="card-header">
+      <h2>🎫 Your Support Requests</h2>
+      <a class="new-btn" href="/open">+ New Ticket</a>
     </div>
-  </main>
+    <div id="content">
+      <p style="text-align:center;color:#888;padding:30px;">Loading tickets…</p>
+    </div>
+  </div>
+</main>
 
-  <script>
-    async function loadTickets() {
-      const sessionRes = await fetch('/api/session');
-      const session = await sessionRes.json();
+<!-- QUEUE POPUP -->
+<div class="queue-popup" id="queuePopup" onclick="closeQueue(event)">
+  <div class="queue-box">
+    <h3>👥 Queue Position</h3>
+    <div class="queue-service-name" id="queueServiceName"></div>
+    <div class="queue-num" id="queueNum">–</div>
+    <div class="queue-num-label">tickets ahead of you</div>
+    <div class="q-bar-wrap">
+      <div class="q-bar-track"><div class="q-bar-fill" id="qBarFill" style="width:0%"></div></div>
+      <div class="q-bar-note" id="qBarNote"></div>
+    </div>
+    <div class="queue-status" id="queueStatusText">Loading...</div>
+    <button class="queue-close" onclick="document.getElementById('queuePopup').style.display='none'">Close</button>
+  </div>
+</div>
 
-      if (!session.loggedIn) {
-        document.getElementById('content').innerHTML =
-          `<div class="empty">Please <a href="/login">login</a> to view your tickets.</div>`;
-        return;
-      }
+<script>
+async function loadTickets(){
+  const sessionRes = await fetch('/api/session');
+  const session    = await sessionRes.json();
 
-      const res = await fetch('/api/ticket/list');
-      const data = await res.json();
+  if(!session.loggedIn){
+    document.getElementById('content').innerHTML =
+      `<div class="empty">Please <a href="/login">login</a> to view your tickets.</div>`;
+    return;
+  }
 
-      if (!data.ok || data.tickets.length === 0) {
-        document.getElementById('content').innerHTML =
-          `<div class="empty">No tickets yet. <a href="/open">Open one now!</a></div>`;
-        return;
-      }
+  // use grouped endpoint so we get serviceNum + serviceName + queue position
+  const res  = await fetch('/api/ticket/grouped');
+  const data = await res.json();
 
-      const rows = data.tickets.map(t => {
-        const statusClass = t.status.replace(' ', '_');
-        return `<tr>
+  // flatten preserving per-service queue position (index within group)
+  const rows = [];
+  (data.groups || []).forEach(g => {
+    g.tickets.forEach((t, i) => {
+      rows.push({...t, queuePos: t.status==='Open' ? i+1 : null});
+    });
+  });
+
+  if(rows.length === 0){
+    document.getElementById('content').innerHTML =
+      `<div class="empty">No tickets yet. <a href="/open">Open one now!</a></div>`;
+    return;
+  }
+
+  const tableRows = rows.map(t => {
+    const sc = (t.status||'').replace(' ','_');
+    const queueCell = t.queuePos
+      ? `<span style="color:var(--navy);font-weight:700">#${t.queuePos}</span>
+         <span style="font-size:12px;color:#888"> in ${t.serviceName}</span>`
+      : `<span style="color:#aaa;font-size:13px">–</span>`;
+
+    return `<tr>
       <td>
-        <span class="ticket-id-link" 
-        onclick="showQueue('${t.id}')" 
-        title="Click to see queue position">
-        ${t.id}
+        <span class="ticket-id-link" onclick="showQueue('${t.id}','${t.serviceName}')" title="Click to see queue details">
+          ${t.id}
         </span>
       </td>
-      <td>${t.service}</td>
-      <td>${t.description}</td>
-      <td><span class="badge ${statusClass}">${t.status}</span></td>
-      <td>${t.date}</td>
-
       <td>
-        <button onclick="deleteTicket('${t.id}')" 
-          style="background:#e74c3c;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer">
-           Delete
-        </button>
+        <span class="svc-label">${t.serviceNum}</span><br>
+        ${t.serviceName}
+      </td>
+      <td>${t.description}</td>
+      <td><span class="badge ${sc}">${t.status}</span></td>
+      <td>${t.date||'Today'}</td>
+      <td>${queueCell}</td>
+      <td>
+        <button class="del-btn" onclick="deleteTicket('${t.id}')">Delete</button>
       </td>
     </tr>`;
-      }).join('');
+  }).join('');
 
-      document.getElementById('content').innerHTML = `
+  document.getElementById('content').innerHTML = `
     <table>
-      <thead>
-        <tr>
-          <th>Ticket ID</th><th>Service</th><th>Description</th><th>Status</th><th>Date</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
+      <thead><tr>
+        <th>Ticket ID</th><th>Service</th><th>Description</th>
+        <th>Status</th><th>Date</th><th>Queue Position</th><th></th>
+      </tr></thead>
+      <tbody>${tableRows}</tbody>
     </table>`;
-    }
+}
 
-    loadTickets();
+async function showQueue(ticketId, serviceName){
+  const popup = document.getElementById('queuePopup');
+  document.getElementById('queueNum').textContent     = '…';
+  document.getElementById('queueStatusText').textContent = 'Fetching your position…';
+  document.getElementById('queueServiceName').textContent = serviceName || '';
+  document.getElementById('qBarFill').style.width = '0%';
+  document.getElementById('qBarNote').textContent = '';
+  popup.style.display = 'flex';
 
-    async function showQueue(ticketId) {
-      const popup = document.getElementById('queuePopup');
-      document.getElementById('queueNum').textContent = '...';
-      document.getElementById('queueStatusText').textContent = 'Fetching your position…';
-      popup.style.display = 'flex';
-      try {
-        const res = await fetch('/api/ticket/status?id=' + encodeURIComponent(ticketId));
-        const data = await res.json();
-        if (data.ok) {
-          document.getElementById('queueNum').textContent = data.peopleAhead;
-          document.getElementById('queueStatusText').textContent =
-            data.peopleAhead === 0
-              ? `Status: ${data.status} — You're next! 🎉`
-              : `Status: ${data.status} — ${data.peopleAhead} ticket(s) ahead of you`;
-        } else {
-          document.getElementById('queueNum').textContent = '?';
-          document.getElementById('queueStatusText').textContent = 'Could not fetch queue info.';
-        }
-      } catch (e) {
-        document.getElementById('queueNum').textContent = '!';
-        document.getElementById('queueStatusText').textContent = 'Server error. Try again.';
+  try{
+    const res  = await fetch('/api/ticket/status?id=' + encodeURIComponent(ticketId));
+    const data = await res.json();
+
+    if(data.ok){
+      const ahead = data.peopleAhead;
+      document.getElementById('queueNum').textContent = ahead;
+
+      if(data.status === 'Closed' || data.status === 'Resolved'){
+        document.getElementById('qBarFill').style.width  = '100%';
+        document.getElementById('qBarNote').textContent  = 'Your ticket has been resolved ✓';
+        document.getElementById('queueStatusText').textContent = `Status: ${data.status}`;
+      } else {
+        const fill = ahead===0 ? 100 : Math.max(5, 100 - ahead*10);
+        document.getElementById('qBarFill').style.width = fill+'%';
+        document.getElementById('qBarNote').textContent = ahead===0
+          ? "You're next! 🎉"
+          : `${ahead} ticket${ahead>1?'s':''} ahead of you in this service queue`;
+        document.getElementById('queueStatusText').textContent =
+          `Status: ${data.status}` + (ahead===0 ? ' — You\'re next!' : '');
       }
+    } else {
+      document.getElementById('queueNum').textContent      = '?';
+      document.getElementById('queueStatusText').textContent = 'Could not fetch queue info.';
     }
-    async function deleteTicket(id) {
-      if (!confirm("Delete this ticket?")) return;
+  } catch(e){
+    document.getElementById('queueNum').textContent      = '!';
+    document.getElementById('queueStatusText').textContent = 'Server error. Try again.';
+  }
+}
 
-      await fetch('/api/ticket/delete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ticketId: id })
-      });
+async function deleteTicket(id){
+  if(!confirm('Delete this ticket?')) return;
+  await fetch('/api/ticket/delete',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ticketId:id})
+  });
+  alert('Deleted!');
+  location.reload();
+}
 
-      alert("Deleted!");
-      location.reload();
-    }
+function closeQueue(e){
+  if(e.target === document.getElementById('queuePopup'))
+    document.getElementById('queuePopup').style.display='none';
+}
 
-    function closeQueue(e) {
-      if (e.target === document.getElementById('queuePopup'))
-        document.getElementById('queuePopup').style.display = 'none';
-    }
-  </script>
-
-  <!-- QUEUE POPUP -->
-  <div class="queue-popup" id="queuePopup" onclick="closeQueue(event)">
-    <div class="queue-box">
-      <h3>👥 Queue Position</h3>
-      <div class="queue-num" id="queueNum">–</div>
-      <div class="queue-status" id="queueStatusText">Loading...</div>
-      <button class="queue-close" onclick="document.getElementById('queuePopup').style.display='none'">Close</button>
-    </div>
-  </div>
+loadTickets();
+</script>
 </body>
-
 </html>

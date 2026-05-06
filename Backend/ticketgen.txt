@@ -1,4 +1,4 @@
-20260001|gokul|gokul|Wi-Fi / Internet Connectivity|wifi issue from night|Resolved
-20260002|gokul|hari|IT Support / System Issues|system not turning on|Open
-20260003|gokul|gokula|Air Conditioning / Ventilation|AC water leakage|Open
-2026CARP01|gokul|rajan|Carpentry / Furniture Repair|bed is broken|Open
+2026CARP01|gokul|rajan|Carpentry / Furniture Repair|bed is broken|Closed
+2026BUS01|gokul|gokulah|Transport / Bus Service|ac not working|Open
+2026PRNT01|gokul|gok|Printer / Scanner Issues|123|Open
+2026BUS02|gokul|gokul|Transport / Bus Service|bus seat broken|Open
